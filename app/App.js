@@ -73,14 +73,15 @@ class App extends Component {
 
   render () {
     let favs = _.map(this.state.favs, (f, i) => {
-      return <View key={i} style={style.favoriteButtonContainer}>
-        <TouchableHighlight onPress={() => this._viewImages(f.name)} underlayColor='transparent' style={style.favorite}>
-          <Text style={style.favoriteText}>{f.name}</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={style.deleteButton} onPress={() => this._deleteItem(f.name)}>
-          <Text style={style.deleteText}>&times;</Text>
-        </TouchableHighlight>
-      </View>
+      return (
+        <View key={i} style={style.favoriteButtonContainer}>
+          <TouchableHighlight onPress={() => this._viewImages(f.name)} underlayColor='transparent' style={style.favorite}>
+            <Text style={style.favoriteText}>{f.name}</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={style.deleteButton} onPress={() => this._deleteItem(f.name)}>
+            <Text style={style.deleteText}>&times;</Text>
+          </TouchableHighlight>
+        </View>)
     })
     return (
       <View style={style.container}>
