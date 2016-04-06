@@ -23,19 +23,24 @@ class ViewImages extends Component {
   }
 
   componentDidMount () {
-    API.get(this.props.category)
+    setTimeout(() => {
+    	API.get(this.props.category)
       .then((response) => {
         this.setState({ images: response, loading: false })
       }, (error) => {
         console.log('error: ', error)
       })
+    }, 700)
   }
 
   render () {
     let { loading, images } = this.state
 
     if (loading) {
-      images = <Text>Loading images...</Text>
+      images = (
+        <View style={style.loadingContainer}>
+          <Text style={style.loading}>Loading images...</Text>
+        </View>)
     }
 
     if (!loading) {
@@ -74,6 +79,14 @@ const style = StyleSheet.create({
     fontSize: 16,
     color: '#afafaf',
     marginTop: 10
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    marginTop: 160
+  },
+  loading: {
+    fontSize: 22,
+    color: '#7f7f7f'
   }
 })
 

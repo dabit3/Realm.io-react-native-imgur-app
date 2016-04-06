@@ -10,10 +10,9 @@ import React, {
 
 import Realm from 'realm'
 import _ from 'lodash'
-let realmId = 0
 
 let realm = new Realm({
-  schema: [{name: 'Favs', primaryKey: 'id', properties: {name: 'string', id: 'int'}}]
+  schema: [{name: 'Categories', properties: {name: 'string'}}]
 })
 
 class App extends Component {
@@ -27,9 +26,9 @@ class App extends Component {
   }
 
   componentDidMount () {
-    let favs = realm.objects('Favs')
+    let favs = realm.objects('Categories')
     this.setState({
-    	favs: favs
+      favs: favs
     })
   }
 
@@ -44,22 +43,21 @@ class App extends Component {
   _addItem () {
     if (this.state.input === '') return
     realm.write(() => {
-      realm.create('Favs', { name: this.state.input, id: realmId })
+      realm.create('Categories', { name: this.state.input })
     })
-    realmId++
     this.setState({ input: '' })
   }
 
-  _deleteItem (i) {
+  _deleteItem (name) {
     let itemToDelete = _.filter(this.state.favs, (f) => {
-      return f.id === i
+      return f.name === name
     })
     realm.write(() => {
       realm.delete(itemToDelete[0])
     })
-    let favs = realm.objects('Favs')
+    let favs = realm.objects('Categories')
     this.setState({
-      favs: favs
+      favs
     })
   }
 
@@ -75,14 +73,13 @@ class App extends Component {
   }
 
   render () {
-    let favs
-    favs = _.map(this.state.favs, (f, i) => {
-      return <View key={i}>
+    let favs = _.map(this.state.favs, (f, i) => {
+      return <View key={i} style={style.favoriteButtonContainer}>
         <TouchableHighlight onPress={() => this._viewImages(f.name)} underlayColor='transparent' style={style.favorite}>
           <Text style={style.favoriteText}>{f.name}</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => this._deleteItem(f.id)}>
-          <Text>Delete</Text>
+        <TouchableHighlight style={style.deleteButton} onPress={() => this._deleteItem(f.name)}>
+          <Text style={style.deleteText}>&times;</Text>
         </TouchableHighlight>
       </View>
     })
@@ -113,6 +110,22 @@ class App extends Component {
 }
 
 const style = StyleSheet.create({
+  favoriteButtonContainer: {
+    flexDirection: 'row'
+  },
+  deleteButton: {
+    width: 57,
+    height: 57,
+    marginRight: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e6e6e6'
+  },
+  deleteText: {
+    color: '#979797',
+    fontSize: 30
+  },
   headingContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -132,11 +145,12 @@ const style = StyleSheet.create({
     alignItems: 'center',
     padding: 13,
     marginLeft: 15,
-    marginRight: 15,
+    marginRight: 5,
     borderWidth: 1,
     borderColor: '#e6e6e6',
     marginBottom: 10,
-    borderRadius: 4
+    borderRadius: 4,
+    flex: 1
   },
   favoriteText: {
     fontSize: 24,
