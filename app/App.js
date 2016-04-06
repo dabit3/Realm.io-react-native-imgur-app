@@ -63,7 +63,6 @@ class App extends Component {
 
   _viewImages (category) {
     this.props.navigator.push({
-      type: 'Modal',
       name: 'ViewImages',
       passProps: {
         closeModal: this._closeModal,
