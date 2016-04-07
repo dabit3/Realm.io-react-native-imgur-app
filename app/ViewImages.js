@@ -25,14 +25,12 @@ class ViewImages extends Component {
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      API.get(this.props.category)
+    API.get(this.props.category)
       .then((response) => {
         this.setState({ dataSource: ds.cloneWithRows(response.data.items), loading: false })
       }, (error) => {
         console.log('error: ', error)
       })
-    })
   }
 
   renderRow (rowData) {
