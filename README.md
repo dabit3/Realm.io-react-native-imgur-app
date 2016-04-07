@@ -9,7 +9,8 @@ This goes along with the medium post [Building An Image Browsing App with Realm.
 1. Git clone the project
 2. cd into the project directory
 3. run `npm install` from the terminal
-4. Open xCode project in ios directory if using iOS, or if using android open project with emulator of choice
+4. run rnpm link
+5. Open xCode project in ios directory if using iOS, or if using android open project with emulator of choice
 
 ```
 npm install
