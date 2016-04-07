@@ -15,6 +15,8 @@ let realm = new Realm({
   schema: [{name: 'Categories', properties: {name: 'string'}}]
 })
 
+let favs = realm.objects('Categories')
+
 class App extends Component {
 
   constructor () {
@@ -26,10 +28,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    let favs = realm.objects('Categories')
-    this.setState({
-      favs: favs
-    })
+    this.setState({ favs })
   }
 
   _closeModal () {
@@ -45,7 +44,7 @@ class App extends Component {
     realm.write(() => {
       realm.create('Categories', { name: this.state.input })
     })
-    this.setState({ input: '' })
+    this.setState({ input: '', favs })
   }
 
   _deleteItem (name) {
@@ -55,10 +54,7 @@ class App extends Component {
     realm.write(() => {
       realm.delete(itemToDelete[0])
     })
-    let favs = realm.objects('Categories')
-    this.setState({
-      favs
-    })
+    this.setState({ favs })
   }
 
   _viewImages (category) {
@@ -72,13 +68,13 @@ class App extends Component {
   }
 
   render () {
-    let favs = _.map(this.state.favs, (f, i) => {
+    let favorites = _.map(this.state.favs, (f, i) => {
       return (
         <View key={i} style={style.favoriteButtonContainer}>
           <TouchableHighlight onPress={() => this._viewImages(f.name)} underlayColor='transparent' style={style.favorite}>
             <Text style={style.favoriteText}>{f.name}</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={style.deleteButton} onPress={() => this._deleteItem(f.name)}>
+          <TouchableHighlight onPress={() => this._deleteItem(f.name)} underlayColor='transparent' style={style.deleteButton} >
             <Text style={style.deleteText}>&times;</Text>
           </TouchableHighlight>
         </View>)
@@ -101,7 +97,7 @@ class App extends Component {
           </View>
           <View style={style.favContainer}>
             <Text style={style.favorites}>FAVORITES</Text>
-            {favs}
+            {favorites}
           </View>
         </ScrollView>
       </View>

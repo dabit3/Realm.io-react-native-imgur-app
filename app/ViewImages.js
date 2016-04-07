@@ -18,7 +18,7 @@ class ViewImages extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      dataSource: ds.cloneWithRows([]),
+      dataSource: ds,
       loading: true,
       images: []
     }
