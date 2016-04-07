@@ -1,5 +1,5 @@
 var rootUrl = 'https://api.imgur.com/3/gallery/t/'
-var apiKey = ''
+var apiKey = '8f67e5f7e9d739a'
 
 module.exports = {
   get (url) {

@@ -1,51 +1,35 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-
 import React, {
   AppRegistry,
   Component,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+  Navigator
+} from 'react-native'
+import App from './app/App'
+import ViewImages from './app/ViewImages'
 
 class RealmImgur extends Component {
-  render() {
+
+  renderScene (route, navigator) {
+    if (route.name === 'App') {
+      return <App navigator={navigator} {...route.passProps} />
+    }
+    if (route.name === 'ViewImages') {
+      return <ViewImages navigator={navigator} {...route.passProps} />
+    }
+  }
+
+  configureScene (route) {
+    return Navigator.SceneConfigs.FloatFromBottom
+  }
+
+  render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
+      <Navigator
+        configureScene={this.configureScene.bind(this)}
+        style={{ flex: 1, backgroundColor: 'white' }}
+        initialRoute={{ name: 'App' }}
+        renderScene={this.renderScene.bind(this)} />
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('RealmImgur', () => RealmImgur);
+AppRegistry.registerComponent('RealmImgur', () => RealmImgur)
