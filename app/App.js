@@ -22,8 +22,7 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      input: '',
-      favs
+      input: ''
     }
   }
 
@@ -44,7 +43,7 @@ class App extends Component {
   }
 
   _deleteItem (name) {
-    let itemToDelete = this.state.favs.filtered('name = $0', name)
+    let itemToDelete = favs.filtered('name = $0', name)
     realm.write(() => {
       realm.delete(itemToDelete)
     })
@@ -62,7 +61,7 @@ class App extends Component {
   }
 
   render () {
-    let favorites = _.map(this.state.favs, (f, i) => {
+    let favorites = _.map(favs, (f, i) => {
       return (
         <View key={i} style={style.favoriteButtonContainer}>
           <TouchableHighlight onPress={() => this._viewImages(f.name)} underlayColor='transparent' style={style.favorite}>
