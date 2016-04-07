@@ -23,12 +23,8 @@ class App extends Component {
     super()
     this.state = {
       input: '',
-      favs: {}
+      favs: favs
     }
-  }
-
-  componentDidMount () {
-    this.setState({ favs })
   }
 
   _closeModal () {
@@ -44,17 +40,15 @@ class App extends Component {
     realm.write(() => {
       realm.create('Categories', { name: this.state.input })
     })
-    this.setState({ input: '', favs })
+    this.setState({ input: '' })
   }
 
   _deleteItem (name) {
-    let itemToDelete = _.filter(this.state.favs, (f) => {
-      return f.name === name
-    })
+    let itemToDelete = this.state.favs.filtered('name = $0', name)
     realm.write(() => {
-      realm.delete(itemToDelete[0])
+      realm.delete(itemToDelete)
     })
-    this.setState({ favs })
+    this.forceUpdate()
   }
 
   _viewImages (category) {
