@@ -6,17 +6,19 @@ import React, {
   TouchableHighlight,
   ScrollView,
   Image,
-  Dimensions
+  Dimensions,
+  ListView
 } from 'react-native'
 
 let windowWidth = Dimensions.get('window').width
 import API from './api'
-import _ from 'lodash'
+let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
 class ViewImages extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      dataSource: ds.cloneWithRows([]),
       loading: true,
       images: []
     }
@@ -24,13 +26,24 @@ class ViewImages extends Component {
 
   componentDidMount () {
     setTimeout(() => {
-    	API.get(this.props.category)
+      API.get(this.props.category)
       .then((response) => {
-        this.setState({ images: response, loading: false })
+        this.setState({ dataSource: ds.cloneWithRows(response.data.items), loading: false })
       }, (error) => {
         console.log('error: ', error)
       })
-    }, 700)
+    })
+  }
+
+  renderRow (rowData) {
+    if (rowData.link.match(/\.(jpg|png|gif)/g)) {
+      return (
+        <View>
+          <Image source={{ uri: rowData.link }} style={{width: windowWidth, height: windowWidth}} />
+        </View>)
+    } else {
+      return null
+    }
   }
 
   render () {
@@ -44,14 +57,7 @@ class ViewImages extends Component {
     }
 
     if (!loading) {
-      images = _.map(this.state.images.data.items, (image, i) => {
-        if (image.link.match(/\.(jpg|png|gif)/g)) {
-          return (
-            <View key={i}>
-              <Image source={{ uri: image.link }} style={{width: windowWidth, height: windowWidth}} />
-            </View>)
-        }
-      })
+      images = <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
     }
 
     return (
