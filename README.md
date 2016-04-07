@@ -2,7 +2,7 @@
 
 > This project uses React Native version 0.22.2 & Realm version 0.11.1
 
-This goes along with the medium post [Building An Image Browsing App with Realm.io, Imgur API, and React Native](https://medium.com/p/53094349669/)
+This goes along with the medium post [Building An Image Browsing App with Realm.io, Imgur API, and React Native](https://medium.com/@dabit3/building-an-image-browsing-app-with-realm-io-imgur-api-and-react-native-331b00297906#.l165qijsm)
 
 **To get started with this project, do the following:**
 
