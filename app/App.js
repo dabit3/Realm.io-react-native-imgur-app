@@ -23,7 +23,7 @@ class App extends Component {
     super()
     this.state = {
       input: '',
-      favs: favs
+      favs
     }
   }
 
